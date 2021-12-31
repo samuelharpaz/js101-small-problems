@@ -21,13 +21,14 @@ readline.setDefaultOptions({ prompt: '=> ' });
 
 // Bonus
 const SQ_METERS_TO_SQ_FEET = 10.7639;
-const SQ_FEET_TO_SQ_METERS = 0.0929;
 
-console.log('Enter the input type (meters or feet):');
+console.clear();
+
+console.log('Enter the input type: meters or feet\n(Enter m for meters or f for feet)');
 let measurement = readline.prompt().toLowerCase();
 
-while (measurement !== 'meters' && measurement !== 'feet') {
-  console.log('Must enter "meters" or "feet"');
+while (!['m', 'meters', 'f', 'feet'].includes(measurement)) {
+  console.log('Invalid input. Please enter m for meters or f for feet');
   measurement = readline.prompt().toLowerCase();
 }
 
@@ -39,22 +40,16 @@ const width = +readline.prompt();
 
 let areaMeters;
 let areaFeet;
+let result;
 
-if (measurement === 'meters') {
+if (['m', 'meters'].includes(measurement)) {
   areaMeters = length * width;
   areaFeet = areaMeters * SQ_METERS_TO_SQ_FEET;
-} else if (measurement === 'feet') {
+  result = `${areaMeters.toFixed(2)} square meters (${areaFeet.toFixed(2)} square feet)`
+} else {
   areaFeet = length * width;
-  areaMeters = areaFeet * SQ_FEET_TO_SQ_METERS;
+  areaMeters = areaFeet / SQ_METERS_TO_SQ_FEET;
+  result = `${areaFeet.toFixed(2)} square feet (${areaMeters.toFixed(2)} square meters)`;
 }
-
-const result =
-  measurement === 'meters'
-    ? `${areaMeters.toFixed(2)} square meters (${areaFeet.toFixed(
-        2
-      )} square feet)`
-    : `${areaFeet.toFixed(2)} square feet (${areaMeters.toFixed(
-        2
-      )} square meters)`;
 
 console.log(`The area of the room is ${result}.`);
